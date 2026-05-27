@@ -4,21 +4,20 @@ use std::io;
 use std::io::Write;
 use std::matches;
 
-#[allow(nonstandard_style)]
 enum Choices {
-    rock,
-    paper,
-    scissors,
-    invalid,
+    Rock,
+    Paper,
+    Scissors,
+    Invalid,
 }
 
 impl Choices {
     fn winner(&self, option: Choices) -> bool {
         matches!(
             (self, option),
-            (Choices::rock, Choices::scissors)
-                | (Choices::paper, Choices::rock)
-                | (Choices::scissors, Choices::paper)
+            (Choices::Rock, Choices::Scissors)
+                | (Choices::Paper, Choices::Rock)
+                | (Choices::Scissors, Choices::Paper)
         )
     }
 }
@@ -65,34 +64,30 @@ fn get_user_ip() -> Choices {
     io::stdin()
         .read_line(&mut input)
         .expect("Couldn't process input.");
-    input = input.trim().to_lowercase();
 
-    if input == String::from("rock") {
-        return Choices::rock;
-    } else if input == String::from("paper") {
-        return Choices::paper;
-    } else if input == String::from("scissors") {
-        return Choices::scissors;
-    } else {
-        return Choices::invalid;
+    match input.trim().to_lowercase().as_str() {
+        "rock" => Choices::Rock,
+        "paper" => Choices::Paper,
+        "scissors" => Choices::Scissors,
+        _ => Choices::Invalid,
     }
 }
 
 fn get_comp_ip() -> Choices {
     let index = rand::rng().random_range(0..3);
     match index {
-        0 => Choices::rock,
-        1 => Choices::paper,
-        2 => Choices::scissors,
-        _ => Choices::invalid,
+        0 => Choices::Rock,
+        1 => Choices::Paper,
+        2 => Choices::Scissors,
+        _ => Choices::Invalid,
     }
 }
 
 fn get_string_from_choice(c: &Choices) -> &str {
     match c {
-        Choices::rock => "Rock",
-        Choices::paper => "Paper",
-        Choices::scissors => "Scissors",
-        Choices::invalid => "Invalid",
+        Choices::Rock => "Rock",
+        Choices::Paper => "Paper",
+        Choices::Scissors => "Scissors",
+        Choices::Invalid => "Invalid",
     }
 }
