@@ -1,5 +1,7 @@
+#[warn(clippy::pedantic)]
 use rand::RngExt;
 use std::io;
+use std::io::Write;
 use std::matches;
 
 #[allow(nonstandard_style)]
@@ -22,7 +24,7 @@ impl Choices {
 }
 
 fn main() {
-    println!("---------/ ROCK, PAPER, scissors /---------");
+    println!("---------/ ROCK, PAPER, SCISSORS /---------");
     let user = get_user_ip();
     let comp = get_comp_ip();
 
@@ -58,7 +60,8 @@ fn main() {
 
 fn get_user_ip() -> Choices {
     let mut input = String::new();
-    println!("Choose: ");
+    print!("Choose: ");
+    io::stdout().flush().unwrap();
     io::stdin()
         .read_line(&mut input)
         .expect("Couldn't process input.");
