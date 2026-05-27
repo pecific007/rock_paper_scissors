@@ -10,7 +10,6 @@ enum Choices {
     invalid,
 }
 
-#[allow(unused)]
 impl Choices {
     fn winner(&self, option: Choices) -> bool {
         matches!(
@@ -69,7 +68,7 @@ fn get_user_ip() -> Choices {
         return Choices::rock;
     } else if input == String::from("paper") {
         return Choices::paper;
-    } else if input == String::from("paper") {
+    } else if input == String::from("scissors") {
         return Choices::scissors;
     } else {
         return Choices::invalid;
