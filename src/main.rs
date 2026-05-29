@@ -47,8 +47,8 @@ fn main() {
     }
 
     match (user, comp) {
-        (Some(user_choice), Some(comp_choice)) => {
-            let winner = user_choice.winner(&comp_choice);
+        (Some(user), Some(comp)) => {
+            let winner = user.winner(&comp);
             if winner {
                 println!("You won!");
             } else {
