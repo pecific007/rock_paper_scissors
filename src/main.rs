@@ -8,11 +8,10 @@ enum Choices {
     Rock,
     Paper,
     Scissors,
-    Invalid,
 }
 
 impl Choices {
-    fn winner(&self, option: Choices) -> bool {
+    fn winner(&self, option: &Choices) -> bool {
         matches!(
             (self, option),
             (Choices::Rock, Choices::Scissors)
@@ -47,17 +46,22 @@ fn main() {
         return;
     }
 
-    let winner = user.winner(comp);
-    if winner {
-        println!("You won!");
-        return;
-    } else {
-        println!("Computer won!");
-        return;
+    match (user, comp) {
+        (Some(user_choice), Some(comp_choice)) => {
+            let winner = user_choice.winner(&comp_choice);
+            if winner {
+                println!("You won!");
+            } else {
+                println!("Computer won!");
+            }
+        }
+        _ => {
+            println!("Something went wrong!")
+        }
     }
 }
 
-fn get_user_ip() -> Choices {
+fn get_user_ip() -> Option<Choices> {
     let mut input = String::new();
     print!("Choose: ");
     io::stdout().flush().unwrap();
@@ -66,28 +70,28 @@ fn get_user_ip() -> Choices {
         .expect("Couldn't process input.");
 
     match input.trim().to_lowercase().as_str() {
-        "rock" => Choices::Rock,
-        "paper" => Choices::Paper,
-        "scissors" => Choices::Scissors,
-        _ => Choices::Invalid,
+        "rock" => Some(Choices::Rock),
+        "paper" => Some(Choices::Paper),
+        "scissors" => Some(Choices::Scissors),
+        _ => None,
     }
 }
 
-fn get_comp_ip() -> Choices {
+fn get_comp_ip() -> Option<Choices> {
     let index = rand::rng().random_range(0..3);
     match index {
-        0 => Choices::Rock,
-        1 => Choices::Paper,
-        2 => Choices::Scissors,
-        _ => Choices::Invalid,
+        0 => Some(Choices::Rock),
+        1 => Some(Choices::Paper),
+        2 => Some(Choices::Scissors),
+        _ => None,
     }
 }
 
-fn get_string_from_choice(c: &Choices) -> &str {
+fn get_string_from_choice(c: &Option<Choices>) -> String {
     match c {
-        Choices::Rock => "Rock",
-        Choices::Paper => "Paper",
-        Choices::Scissors => "Scissors",
-        Choices::Invalid => "Invalid",
+        Some(Choices::Rock) => String::from("Rock"),
+        Some(Choices::Paper) => String::from("Paper"),
+        Some(Choices::Scissors) => String::from("Scissors"),
+        None => String::from("Invalid"),
     }
 }
